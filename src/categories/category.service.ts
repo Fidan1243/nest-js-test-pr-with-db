@@ -6,12 +6,13 @@ import { CategoryModel } from "./category.model";
 
 @Injectable()
 export class CategoryService{
-    private allCategories:CategoryModel[] = [];
 
     constructor(@InjectModel('Categories') private readonly categoryModel: Model<CategoryModel>){}
 
-    GetCategories(){
-        return this.allCategories;
+    async GetCategories(){
+        const result = await this.categoryModel.find();
+        console.log(result);
+        return result;
     }
 
     async Add(name:string){

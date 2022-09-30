@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Get, Post } from "@nestjs/common";
-import { CategoryModel } from "./category.model";
 import { CategoryService } from "./category.service";
 
 @Controller('categories')

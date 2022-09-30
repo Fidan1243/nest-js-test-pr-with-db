@@ -6,7 +6,6 @@ import { NewsModel } from "./news.model";
 
 @Injectable()
 export class NewsService{
-    private allNews:NewsModel[] = [];
 
     constructor(@InjectModel('News') private readonly newsModel: Model<NewsModel>){}
 
