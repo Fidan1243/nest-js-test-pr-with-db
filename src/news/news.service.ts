@@ -15,9 +15,8 @@ export class NewsService{
         return result;
     }
     
-    async GetNewsByCategory(category:object){
-        console.log(category);
-        const result = await this.newsModel.find(category);
+    async GetNewsByCategory(category:string){
+        const result = await this.newsModel.find({categoryId:category});
         console.log(result);
         return result;
     }

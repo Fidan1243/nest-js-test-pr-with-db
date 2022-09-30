@@ -15,6 +15,14 @@ export class CategoryService{
         return result;
     }
 
+    
+    async GetCategoryById(st:string){
+        console.log(st);
+         const result = await this.categoryModel.find({_id:st});
+         console.log(result);
+         return result;
+    }
+
     async Add(name:string){
         const newCt = new this.categoryModel(name);
         const result = await newCt.save();

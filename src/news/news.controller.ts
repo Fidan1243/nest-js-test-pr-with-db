@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { NewsService } from "./news.service";
 
 @Controller('news')
@@ -9,8 +9,8 @@ export class NewsController{
     async getAllNews(){
         return await this.NewsService.GetNews();
     }
-    @Get("category")
-    async getNewsByCategory(@Body() category:object){
+    @Get("/:categoryId")
+    async getNewsByCategory(@Param("categoryId") category:string){
         return await this.NewsService.GetNewsByCategory(category);
     }
     @Post()
