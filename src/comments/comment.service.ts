@@ -27,7 +27,7 @@ export class CommentService{
         const newCt = new this.commentModel(name);
         const result = await newCt.save();
         console.log(result);
-        return HttpStatus.OK;
+        return result;
     }
 
 }

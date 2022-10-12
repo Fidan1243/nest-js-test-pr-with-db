@@ -1,22 +1,39 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, CACHE_MANAGER, Controller, Get, Inject, Param, Post } from "@nestjs/common";
 import { CategoryService } from "./category.service";
+import { Cache } from "cache-manager";
 
 @Controller('categories')
 export class CategoryController{
-    constructor(private CategoryService: CategoryService){}
+    constructor(private CategoryService: CategoryService, @Inject(CACHE_MANAGER) private cacheManager: Cache){}
     @Get()
-    getAllCategories(){
-        return this.CategoryService.GetCategories();
+    async getAllCategories(){
+        const val = await this.cacheManager.get('categories');
+        if(val){
+            console.log("from redis " + val);
+            return val;
+        }
+        const result = await this.CategoryService.GetCategories();
+        await this.cacheManager.set('categories', result, { ttl: 1000 });
+        return result;
     }
 
     @Get("/:categoryId")
-    getCategoryById(@Param("categoryId") categoryId:string){
-        return this.CategoryService.GetCategoryById(categoryId);
+    async getCategoryById(@Param("categoryId") categoryId:string){
+        const val = await this.cacheManager.get('category'+categoryId);
+        if(val){
+            console.log("from redis " + val);
+            return val;
+        }
+        const result = await this.CategoryService.GetCategoryById(categoryId);
+        await this.cacheManager.set('category'+categoryId, result, { ttl: 1000 });
+        return result;
     }
 
     @Post()
-    Add(@Body() name:string){
-        return this.CategoryService.Add(name);
+    async Add(@Body() name:string){
+        const result = await this.CategoryService.Add(name);
+        await this.cacheManager.set('categories'+result._id, result, { ttl: 1000 });
+        return result;
     }
 }

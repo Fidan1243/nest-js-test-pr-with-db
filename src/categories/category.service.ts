@@ -27,7 +27,7 @@ export class CategoryService{
         const newCt = new this.categoryModel(name);
         const result = await newCt.save();
         console.log(result);
-        return HttpStatus.OK;
+        return result;
     }
 
 }
