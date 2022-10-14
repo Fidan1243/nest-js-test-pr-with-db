@@ -31,7 +31,6 @@ export class NewsController{
     @Post()
     async Add(@Body() name:string){
         const result = await this.NewsService.Add(name);
-        await this.cacheManager.set(result._id.toString(), result, { ttl: 1000 });
         return result;
     }
 }

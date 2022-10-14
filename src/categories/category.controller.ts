@@ -33,7 +33,6 @@ export class CategoryController{
     @Post()
     async Add(@Body() name:string){
         const result = await this.CategoryService.Add(name);
-        await this.cacheManager.set('categories'+result._id, result, { ttl: 1000 });
         return result;
     }
 }

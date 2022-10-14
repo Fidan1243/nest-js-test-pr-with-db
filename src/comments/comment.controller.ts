@@ -32,7 +32,6 @@ export class CommentController{
     @Post()
     async Add(@Body() name:string){
         const result = await this.CommentService.Add(name);
-        await this.cacheManager.set('comments'+result._id, result, { ttl: 1000 });
         return result;
     }
 }
