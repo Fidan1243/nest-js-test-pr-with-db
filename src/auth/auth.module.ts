@@ -6,7 +6,6 @@ import { AuthSchema } from './auth.model';
 import { AuthService } from './auth.service';
 import redisStore from 'cache-manager-redis-store';
 import { TokenModule } from '../token/token.module';
-import { TokenService } from '../token/token.service';
 @Module({
     imports:[forwardRef(()=>TokenModule), MongooseModule.forFeature([{name:"Users",schema:AuthSchema}]),  CacheModule.register({
         store:redisStore,
@@ -14,7 +13,7 @@ import { TokenService } from '../token/token.service';
         port:process.env.REDIS_PORT
       })],
     controllers: [AuthController],
-    providers: [AuthService, TokenService],
-    exports: [AuthService,AuthModule]
+    providers: [AuthService],
+    exports: [AuthService]
   })
 export class AuthModule {}

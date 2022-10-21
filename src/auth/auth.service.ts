@@ -6,11 +6,13 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { AuthModel } from './auth.model';
 import { TokenService } from '../token/token.service';
+import { Inject } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel('Users') private readonly userModel: Model<AuthModel>
+    @InjectModel('Users') private readonly userModel: Model<AuthModel>,
+    @Inject(TokenService) private readonly TokenService: TokenService
   ) {}
 
   async Add(email: string, password: string) {
@@ -39,7 +41,8 @@ export class AuthService {
     if (!compared) {
       throw error('invalid password', 400);
     }
-    return { userr };
+    const {accessToken,refreshToken} = await this.TokenService.generateTokens(userr._id);
+    return { accessToken,refreshToken };
   }
 
   async findUserById(_id){
