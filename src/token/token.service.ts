@@ -53,4 +53,36 @@ export class TokenService {
       throw error;
     }
   }
+  public async validateAccessToken(accessToken: string) {
+    if (!accessToken) {
+      throw new Error('Unauthorized');
+    }
+    try {
+      const userData = jsonwebtoken.verify(
+        accessToken,
+        process.env.ACCESS_SECRET_KEY,
+      );
+      return userData;
+    } catch (error) {
+      throw error;
+    }
+  }
+  public async validateRefreshToken(refreshToken: string) {
+    if (!refreshToken) {
+      throw new Error("You're not logged in!");
+    }
+    try {
+      const token = this.tokenModel.findOne({ refreshToken });
+      if (!token) {
+        throw new Error('Invalid Refresh Token');
+      }
+      const userPayload = jsonwebtoken.verify(
+        refreshToken,
+        process.env.REFRESH_SECRET_KEY,
+      );
+      return userPayload;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
