@@ -58,7 +58,7 @@ export class TokenService {
       throw new Error('Unauthorized');
     }
     try {
-      const userData = jsonwebtoken.verify(
+      const userData = await jsonwebtoken.verify(
         accessToken,
         process.env.ACCESS_SECRET_KEY,
       );
@@ -67,19 +67,20 @@ export class TokenService {
       throw error;
     }
   }
-  public async validateRefreshToken(refreshToken: string) {
-    if (!refreshToken) {
+  public async validateRefreshToken(Token: string) {
+    if (!Token) {
       throw new Error("You're not logged in!");
     }
     try {
-      const token = this.tokenModel.findOne({ refreshToken });
+      const token = await this.tokenModel.findOne({ refreshToken: Token });
       if (!token) {
         throw new Error('Invalid Refresh Token');
       }
-      const userPayload = jsonwebtoken.verify(
-        refreshToken,
+      const userPayload = await jsonwebtoken.verify(
+        Token,
         process.env.REFRESH_SECRET_KEY,
       );
+      console.log(userPayload);
       return userPayload;
     } catch (error) {
       throw error;

@@ -10,7 +10,7 @@ export class RefreshMiddleware implements NestMiddleware {
       if (req.body.user) {
         return next();
       }
-      const token = req.headers['refreshToken'].toString();
+      const token = req.headers['refreshtoken'].toString();
       if (token) {
         const rtoken = token.split(' ')[1];
         if (rtoken) {
@@ -21,7 +21,7 @@ export class RefreshMiddleware implements NestMiddleware {
       }
       return next(new Error("You're not logged in!"));
     } catch (error) {
-      return next(new Error("You're not logged in!"));
+      return next(error);
     }
   }
 }

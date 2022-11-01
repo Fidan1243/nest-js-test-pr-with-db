@@ -7,9 +7,9 @@ export class AuthMiddleware implements NestMiddleware {
   constructor(private tokenService: TokenService) {}
   async use(req: Request, res: Response, next: NextFunction) {
     try {
-      const accessToken = req.headers['accesstoken'].toString();
-      if (accessToken) {
-        const token = accessToken.split(' ')[1];
+      if (req.headers.accesstoken) {
+        const accessTokeen = req.headers['accesstoken'].toString();
+        const token = accessTokeen.split(' ')[1];
         console.log(token);
         if (token) {
           const userData = await this.tokenService.validateAccessToken(token);
@@ -18,7 +18,7 @@ export class AuthMiddleware implements NestMiddleware {
       }
       return next();
     } catch (error) {
-      return next(new Error("You're not logged in!"));
+      return next(error);
     }
   }
 }
