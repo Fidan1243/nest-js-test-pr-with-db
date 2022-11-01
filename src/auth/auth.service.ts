@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { error } from 'console';
 import { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { AuthModel } from './auth.model';
+import { AuthModel } from '../models/auth.model';
 import { TokenService } from '../token/token.service';
 import { Inject } from '@nestjs/common';
 

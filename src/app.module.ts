@@ -26,6 +26,10 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware, RefreshMiddleware)
-      .forRoutes({ path: 'news', method: RequestMethod.POST}, {path: 'categories', method: RequestMethod.POST});
+      .forRoutes(
+        { path: 'news', method: RequestMethod.POST },
+        { path: 'categories', method: RequestMethod.POST },
+        { path: 'users', method:RequestMethod.ALL },
+      );
   }
 }

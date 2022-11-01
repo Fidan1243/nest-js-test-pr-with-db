@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as jsonwebtoken from 'jsonwebtoken';
 import { Model, Types } from 'mongoose';
-import { AuthModel } from '../auth/auth.model';
+import { AuthModel } from '../models/auth.model';
 import { TokenModel } from './token.model';
 @Injectable()
 export class TokenService {
