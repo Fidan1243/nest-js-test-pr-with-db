@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { error } from 'console';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { AuthModel } from './auth.model';
 import { TokenService } from '../token/token.service';
@@ -12,7 +12,7 @@ import { Inject } from '@nestjs/common';
 export class AuthService {
   constructor(
     @InjectModel('Users') private readonly userModel: Model<AuthModel>,
-    @Inject(TokenService) private readonly TokenService: TokenService
+    @Inject(TokenService) private readonly TokenService: TokenService,
   ) {}
 
   async Add(email: string, password: string) {
@@ -41,11 +41,13 @@ export class AuthService {
     if (!compared) {
       throw error('invalid password', 400);
     }
-    const {accessToken,refreshToken} = await this.TokenService.generateTokens(userr._id);
-    return { accessToken,refreshToken };
+    const { accessToken, refreshToken } =
+      await this.TokenService.generateTokens(userr._id);
+    const save = this.TokenService.saveToken(refreshToken, userr._id);
+    return { accessToken, refreshToken };
   }
 
-  async findUserById(_id){
+  async findUserById(_id) {
     const result = await this.userModel.findById(_id);
     return result;
   }

@@ -13,7 +13,6 @@ import { TokenModule } from '../token/token.module';
         port:process.env.REDIS_PORT
       })],
     controllers: [AuthController],
-    providers: [AuthService],
-    exports: [AuthService]
+    providers: [AuthService]
   })
 export class AuthModule {}

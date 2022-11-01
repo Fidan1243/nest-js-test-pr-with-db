@@ -30,4 +30,5 @@ export class AuthController {
       return error;
     }
   }
+
 }
