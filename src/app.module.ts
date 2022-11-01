@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { TokenModule } from './token/token.module';
 import { AuthMiddleware } from './middlewares/auth.middleware';
 import { RefreshMiddleware } from './middlewares/refresh.middleware';
+import { AuthSchema } from './models/auth.model';
+import { RoleSchema } from './models/role.model';
 config();
 @Module({
   imports: [
@@ -18,6 +20,10 @@ config();
     CommentModule,
     AuthModule,
     MongooseModule.forRoot(process.env.MONGO_URL),
+    MongooseModule.forFeature([
+      { name: 'Users', schema: AuthSchema },
+      { name: 'Role', schema: RoleSchema },
+    ]),
   ],
   controllers: [],
   providers: [],
@@ -29,7 +35,7 @@ export class AppModule {
       .forRoutes(
         { path: 'news', method: RequestMethod.POST },
         { path: 'categories', method: RequestMethod.POST },
-        { path: 'users', method:RequestMethod.ALL },
+        { path: 'users', method: RequestMethod.ALL },
       );
   }
 }
